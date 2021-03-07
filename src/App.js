@@ -1,8 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
-import react, {useState,useEffect} from 'react'
+import {useState,useEffect} from 'react'
 
-import {Robot} from './components/robot/robot'
 import {Field} from './components/field/field'
 
 const App = ()=> {
@@ -19,6 +17,8 @@ const App = ()=> {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
 
   let updatedFieldDimensions={};
+  let animationComplete = false
+  let coordinatesArray =[]
 
   useEffect(()=>{
     updatedFieldDimensions=fieldDimensions
@@ -27,12 +27,15 @@ const App = ()=> {
   const nextLocationToPixels = (newCoordinates)=>{
     let xPixel;
     let yPixel;
-    while(newCoordinates.length > 0 && isAnimationComplete) {
-      xPixel = newCoordinates.shift()*68;
-      yPixel = newCoordinates.shift()*63;
-      setIsAnimationComplete(false);
-      robotNextLocation({xPixel, yPixel})
-    }
+    
+    console.log(newCoordinates)
+    xPixel = newCoordinates.shift()*68;
+    yPixel = newCoordinates.shift()*63;
+    
+    console.log('is animation complete? ',isAnimationComplete)
+    robotNextLocation({xPixel, yPixel});
+    
+    
     
   }
 
@@ -41,14 +44,14 @@ const App = ()=> {
     const coordinates= e.target.querySelector('textarea').value
     const validatedCoordinates = validateCoordinates(coordinates);
     setIsAnimationComplete(false)
-
+    animationComplete=false
     if(Number(validatedCoordinates[0])<=(fieldDimensions.fieldWidth-1) || Number(validatedCoordinates[1])<=(fieldDimensions.fieldHeight-1)){
       nextLocationToPixels(validatedCoordinates)
     }  
   }
 
   const validateBrackets=(string)=>{
-    if(string.charAt(0)!="(" && string.charAt(-1)!=")")return true
+    if(string.charAt(0)!=="(" && string.charAt(-1)!==")")return true
     return !string.split("").reduce((previous,char)=>{
       if(previous<0){return previous}
       if(char==="("){return ++previous}
@@ -59,10 +62,8 @@ const App = ()=> {
 
   const validateCoordinates =(coordinates)=>{
     validateBrackets(coordinates)
-    let coordinatesArray
     if(validateBrackets(coordinates)){
       coordinatesArray=coordinates.replace(/\(/g,'').replace(/\)/g,'').split(",");
-      console.log(coordinatesArray)
     }
     return coordinatesArray
   }
@@ -74,14 +75,19 @@ const App = ()=> {
   }
 
   const parentRestCallback = () => {
-    console.log('here')
     setIsAnimationComplete(true)
+    console.log(isAnimationComplete)
+    if(isAnimationComplete===true){
+      console.log(isAnimationComplete)
+    }
   }
+
   return (
     <div className="App">
       <header className="App-header">
           <Field
             onRestCallback={parentRestCallback}
+            isAnimationComplete={isAnimationComplete}
             totalWidth={fieldDimensions.fieldWidth}
             totalHeight={fieldDimensions.fieldHeight}
             xPixels={robotCurrentLocation.xPixel}
@@ -97,7 +103,7 @@ const App = ()=> {
         <form className="Submit-button"onSubmit={(e)=>{handleSubmitCoordinate(e)}}>
           <label>
             Coordinates:<br/>
-            <textarea>(4,5)</textarea>
+            <textarea className="coordinates">(4,6),(2,2)</textarea>
           </label><br/>
           <input type="submit" value="Submit" />
         </form>

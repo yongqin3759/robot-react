@@ -1,6 +1,6 @@
 import React from 'react'
 import robotImage from './robot.png'
-import{useSpring,animated,config} from'react-spring'
+import{useSpring,animated} from'react-spring'
 
 
 import classes from './robot.module.css'
@@ -9,17 +9,12 @@ export const Robot = (props) => {
     const {xyz} = useSpring({
         from: {xyz: [0, 0, 0]},
         xyz: [props.xPixels, -props.yPixels, 0],
-        config: {mass:40, friction:50, tension:40},
-        onFrame: (arg) => {
-            if(arg.xyz && arg.xyz[0] === props.xPixels && arg.xyz[1] === -props.yPixels) {
-                // do something 
-                //  
-                props.onRestCallback();
-            }
-            
+        config: {mass:40, friction:100, tension:90, clamp:true},
+        onRest: (arg) => {
+        props.onRestCallback()
+        console.log('This animaton has completed')
         }
     });
-    console.log(props.xPixels)
     return (
         <div className={classes.Robot}>
             <animated.img 

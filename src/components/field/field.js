@@ -1,4 +1,4 @@
-import React from 'react'
+  import React from 'react'
 import classes from './field.module.css'
 import {Robot} from '../robot/robot'
 export const Field = (props) => {
@@ -11,7 +11,8 @@ export const Field = (props) => {
             rowBlocks.push(<div className={classes.Block}>{i},{j}</div>)
         }
         }
-    })()    
+    })()
+     
     return (
         <div className={classes.Field} style={{width:rowWidthInPixels+'px', height:rowHeightInPixels+'px'}}>
             {rowBlocks}
@@ -19,6 +20,7 @@ export const Field = (props) => {
                 onRestCallback={props.onRestCallback}
                 xPixels={props.xPixels}
                 yPixels={props.yPixels}
+                isAnimationComplete={()=>props.isAnimationComplete}
             />
         </div>
     )
