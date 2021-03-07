@@ -7,14 +7,19 @@
   pointer-events: none;
 }
 
-.Submit-button{
+.submit-button{
   position: absolute;
   bottom: 100px;
   left: 50px;
 }
 .submit-field-size{
   position: absolute;
-  bottom: 300px;
+  bottom: 220px;
+  left: 50px;
+}
+.submit-robot-speed{
+  position: absolute;
+  bottom: 340px;
   left: 50px;
 }
 

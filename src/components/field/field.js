@@ -1,4 +1,4 @@
-  import React from 'react'
+import React from 'react'
 import classes from './field.module.css'
 import {Robot} from '../robot/robot'
 export const Field = (props) => {
@@ -21,6 +21,7 @@ export const Field = (props) => {
                 xPixels={props.xPixels}
                 yPixels={props.yPixels}
                 isAnimationComplete={()=>props.isAnimationComplete}
+                robotSpeed={props.robotSpeed}
             />
         </div>
     )

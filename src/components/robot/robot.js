@@ -9,12 +9,14 @@ export const Robot = (props) => {
     const {xyz} = useSpring({
         from: {xyz: [0, 0, 0]},
         xyz: [props.xPixels, -props.yPixels, 0],
-        config: {mass:40, friction:100, tension:90, clamp:true},
+        config: {mass:40, friction:50, tension:props.robotSpeed, clamp:true},
         onRest: (arg) => {
-        props.onRestCallback()
-        console.log('This animaton has completed')
+            if (props.xPixels === arg.xyz[0] && props.yPixels === -arg.xyz[1]) {
+                props.onRestCallback();
+            }
         }
     });
+    console.log(props.robotSpeed)
     return (
         <div className={classes.Robot}>
             <animated.img 
