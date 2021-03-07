@@ -16,25 +16,34 @@ const App = ()=> {
     yPixel:0,
   })
 
+  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+
   let updatedFieldDimensions={};
 
   useEffect(()=>{
     updatedFieldDimensions=fieldDimensions
   },[fieldDimensions]);
 
-  const nextLocationToPixels = (xCoordinate, yCoordinate)=>{
-    let xPixel = xCoordinate*68;
-    let yPixel = yCoordinate*63;
-    robotNextLocation({xPixel, yPixel})
+  const nextLocationToPixels = (newCoordinates)=>{
+    let xPixel;
+    let yPixel;
+    while(newCoordinates.length > 0 && isAnimationComplete) {
+      xPixel = newCoordinates.shift()*68;
+      yPixel = newCoordinates.shift()*63;
+      setIsAnimationComplete(false);
+      robotNextLocation({xPixel, yPixel})
+    }
+    
   }
 
   const handleSubmitCoordinate = (e)=>{
     e.preventDefault()
     const coordinates= e.target.querySelector('textarea').value
     const validatedCoordinates = validateCoordinates(coordinates);
+    setIsAnimationComplete(false)
 
     if(Number(validatedCoordinates[0])<=(fieldDimensions.fieldWidth-1) || Number(validatedCoordinates[1])<=(fieldDimensions.fieldHeight-1)){
-      nextLocationToPixels(validatedCoordinates[0], validatedCoordinates[1])
+      nextLocationToPixels(validatedCoordinates)
     }  
   }
 
@@ -64,10 +73,15 @@ const App = ()=> {
     changeFieldDimensions({fieldWidth:coordinates[0], fieldHeight:coordinates[1]})
   }
 
+  const parentRestCallback = () => {
+    console.log('here')
+    setIsAnimationComplete(true)
+  }
   return (
     <div className="App">
       <header className="App-header">
           <Field
+            onRestCallback={parentRestCallback}
             totalWidth={fieldDimensions.fieldWidth}
             totalHeight={fieldDimensions.fieldHeight}
             xPixels={robotCurrentLocation.xPixel}

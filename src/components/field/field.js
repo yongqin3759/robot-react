@@ -16,6 +16,7 @@ export const Field = (props) => {
         <div className={classes.Field} style={{width:rowWidthInPixels+'px', height:rowHeightInPixels+'px'}}>
             {rowBlocks}
             <Robot
+                onRestCallback={props.onRestCallback}
                 xPixels={props.xPixels}
                 yPixels={props.yPixels}
             />
