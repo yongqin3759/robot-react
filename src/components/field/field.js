@@ -3,8 +3,8 @@ import classes from './field.module.css'
 import {Robot} from '../robot/robot'
 export const Field = (props) => {
     const rowBlocks = []
-    let rowHeightInPixels = (props.totalHeight) * 68;
-    let rowWidthInPixels = (props.totalWidth) * 66;
+    let rowHeightInPixels = (props.totalHeight) * 67;
+    let rowWidthInPixels = (props.totalWidth) * 68;
     
     (()=>{for(let i=0; i<props.totalWidth;i++){
         for(let j=0; j<props.totalHeight; j++){
