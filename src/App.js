@@ -127,7 +127,7 @@ const App = ()=> {
         <form className="submit-robot-speed"onSubmit={(e)=>{handleRobotSpeed(e)}}>
           <label>
             Robot Speed:<br/>
-            <textarea className="robot-speed">90</textarea>
+            <textarea className="robot-speed">50</textarea>
           </label><br/>
           <input type="submit" value="Submit" />
         </form>
